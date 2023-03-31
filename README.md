@@ -39,7 +39,7 @@ Please refer to requirements.txt for more details on dependencies.
 
 **Test**
 
-Download [our models](https://drive.google.com/file/d/1MQGyyf1MQjETRG_CRBMEfrV0IFiis_ZQ/view?usp=share_link) and put them under the root/output folder. Test for the semi-supervised setting by running the command below.  (We provide models trained with 5, 10, 15, 20 and 25 images per category)
+Download [our models](https://drive.google.com/file/d/1MQGyyf1MQjETRG_CRBMEfrV0IFiis_ZQ/view?usp=share_link) and put them under the root/output folder. Test for the semi-supervised setting by running the command below.  (We provide models trained with 5, 10, 15, 20 and 25 labels per category)
 ```
 CUDA_VISIBLE_DEVICES=0 python tools/test.py --cfg experiments/ap10k/hrnet/w32_256x192_adam_lr1e-3.yaml --animalpose OUTPUT_DIR test TEST.MODEL_FILE output/output_part5_updatev2/model_best.pth MODEL.NAME pose_hrnet_part GPUS [0,]
 ```
@@ -74,7 +74,7 @@ The training steps for the transfer setting are similar. Firstly train with the 
 CUDA_VISIBLE_DEVICES=0,1 python tools/train.py --cfg experiments/ap10k/hrnet/w32_256x192_adam_lr1e-3.yaml --animalpose OUTPUT_DIR output_animal_hrnet_part_bovidae DATASET.DATASET ap10k MODEL.NAME pose_hrnet_part DATASET.SELECT_DATA True
 ```
 
-Then generate pseudo labels by running:
+Then create folder root/data/pseudo_labels/0shots, and generate pseudo labels by running:
 ```
 CUDA_VISIBLE_DEVICES=0 python tools/train_mt_part.py --cfg experiments/ap10k/hrnet/w32_256x192_adam_lr1e-3.yaml --animalpose --generate_pseudol --pretrained output/output_animal_hrnet_part_bovidae/model_best.pth OUTPUT_DIR test MODEL.NAME pose_hrnet_part TRAIN.BATCH_SIZE_PER_GPU 32 GPUS [0,] LABEL_PER_CLASS 0
 ```
